@@ -1,0 +1,228 @@
+/* ---------- Reset and base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.6;
+  color: #2d2d2d;
+  background-color: #f4f1ea;
+}
+
+/* ---------- Header ---------- */
+header {
+  background-color: #2f4858;
+  color: #ffffff;
+  text-align: center;
+  padding: 36px 20px;
+}
+
+header h1 {
+  margin: 0 0 6px;
+  font-size: 2.4rem;
+}
+
+header p {
+  margin: 0;
+  color: #d9e4ea;
+}
+
+/* ---------- Main column and section cards ---------- */
+main {
+  max-width: 700px;
+  margin: 28px auto;
+  padding: 0 16px;
+}
+
+section {
+  background-color: #ffffff;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+section h2 {
+  margin: 0 0 14px;
+  color: #2f4858;
+}
+
+/* ---------- Form (Flexbox) ---------- */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+form label {
+  flex-basis: 100%;
+  font-weight: 600;
+}
+
+form input[type="text"] {
+  flex: 1 1 220px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+input,
+select {
+  padding: 10px 12px;
+  font: inherit;
+  border: 1px solid #b8c4ca;
+  border-radius: 6px;
+  background-color: #ffffff;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid #f6c945;
+  border-color: #2f4858;
+}
+
+#search-input {
+  width: 100%;
+}
+
+/* ---------- Buttons ---------- */
+button {
+  padding: 10px 20px;
+  font: inherit;
+  color: #ffffff;
+  background-color: #2f4858;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #f6c945;
+  color: #2f4858;
+  transform: translateY(-2px);
+}
+
+/* ---------- Messages ---------- */
+.error-message {
+  min-height: 1.5em;
+  margin: 10px 0 0;
+  color: #c62828;
+  font-weight: 600;
+}
+
+.note-count {
+  margin: 12px 0;
+  color: #5f6b73;
+}
+
+/* ---------- Notes list and cards ---------- */
+#notes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.note-card {
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border: 1px solid #dde4e8;
+  border-left: 6px solid #9aa7b0;
+  border-radius: 8px;
+  background-color: #fbfcfc;
+}
+
+.note-text {
+  margin: 0 0 10px;
+  overflow-wrap: anywhere;
+}
+
+.note-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: #5f6b73;
+}
+
+.category-label {
+  padding: 2px 10px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.delete-btn {
+  margin-left: auto;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  background-color: #6b7a84;
+}
+
+.empty-message {
+  padding: 14px 0;
+  color: #5f6b73;
+  font-style: italic;
+}
+
+/* ---------- One look per category ---------- */
+.category-personal {
+  border-left-color: #1a9a8a;
+}
+.category-personal .category-label {
+  background-color: #1a9a8a;
+}
+
+.category-work {
+  border-left-color: #8b1e1e;
+}
+.category-work .category-label {
+  background-color: #8b1e1e;
+}
+
+.category-study {
+  border-left-color: #2a6fdb;
+}
+.category-study .category-label {
+  background-color: #2a6fdb;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #5f6b73;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 600px) {
+  header {
+    padding: 24px 14px;
+  }
+
+  header h1 {
+    font-size: 1.7rem;
+  }
+
+  section {
+    padding: 16px;
+  }
+
+  form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  form input[type="text"] {
+    flex: none;
+  }
+}
