@@ -6,10 +6,30 @@ const categorySelect = document.querySelector("#note-category");
 const notesList = document.querySelector("#notes-list");
 const errorMessage = document.querySelector("#error-message");
 const noteCount = document.querySelector("#note-count");
+const searchInput = document.querySelector("#search-input");
 
 const MAX_CHARS = 200;
+const STORAGE_KEY = "quicknotes-notes";
 
-let notes = [];
+let notes = loadNotes();
+
+// Read saved notes. If nothing is saved (or the data is damaged), start empty.
+function loadNotes() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return Array.isArray(saved) ? saved : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveNotes() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+  } catch (error) {
+    console.warn("Could not save your notes:", error);
+  }
+}
 
 // A readable date and time, e.g. "14 Oct 2026, 09:30"
 function formatDate(date) {
@@ -59,6 +79,7 @@ function createNoteItem(note) {
 
 function deleteNote(id) {
   notes = notes.filter((note) => note.id !== id);
+  saveNotes();
   render();
 }
 
@@ -73,10 +94,28 @@ function updateCount() {
   }
 }
 
+// Keep notes that contain every word typed in the search box (any case).
+function getVisibleNotes() {
+  const words = searchInput.value.toLowerCase().split(/\s+/).filter(Boolean);
+  return notes.filter((note) => {
+    const text = note.text.toLowerCase();
+    return words.every((word) => text.includes(word));
+  });
+}
+
 // Rebuild the whole list from the notes array.
 function render() {
+  const visibleNotes = getVisibleNotes();
   notesList.textContent = "";
-  for (const note of notes) {
+
+  if (notes.length > 0 && visibleNotes.length === 0) {
+    const message = document.createElement("li");
+    message.className = "empty-message";
+    message.textContent = "No notes match your search.";
+    notesList.appendChild(message);
+  }
+
+  for (const note of visibleNotes) {
     notesList.appendChild(createNoteItem(note));
   }
   updateCount();
@@ -104,8 +143,11 @@ form.addEventListener("submit", (event) => {
     createdAt: formatDate(new Date()),
   });
 
+  saveNotes();
   noteInput.value = "";
   render();
 });
+
+searchInput.addEventListener("input", render);
 
 render();
