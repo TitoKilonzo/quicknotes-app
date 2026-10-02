@@ -1,0 +1,77 @@
+// QuickNotes
+
+const form = document.querySelector("#note-form");
+const noteInput = document.querySelector("#note-input");
+const categorySelect = document.querySelector("#note-category");
+const notesList = document.querySelector("#notes-list");
+
+let notes = [];
+
+// A readable date and time, e.g. "14 Oct 2026, 09:30"
+function formatDate(date) {
+  return date.toLocaleString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function capitalise(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+// Build one note card. textContent keeps user text safe.
+function createNoteItem(note) {
+  const item = document.createElement("li");
+  item.className = `note-card category-${note.category}`;
+
+  const text = document.createElement("p");
+  text.className = "note-text";
+  text.textContent = note.text;
+
+  const meta = document.createElement("div");
+  meta.className = "note-meta";
+
+  const label = document.createElement("span");
+  label.className = "category-label";
+  label.textContent = capitalise(note.category);
+
+  const date = document.createElement("span");
+  date.className = "note-date";
+  date.textContent = note.createdAt;
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.type = "button";
+  deleteBtn.className = "delete-btn";
+  deleteBtn.textContent = "Delete";
+
+  meta.append(label, date, deleteBtn);
+  item.append(text, meta);
+  return item;
+}
+
+// Rebuild the whole list from the notes array.
+function render() {
+  notesList.textContent = "";
+  for (const note of notes) {
+    notesList.appendChild(createNoteItem(note));
+  }
+}
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  notes.unshift({
+    id: Date.now(),
+    text: noteInput.value.trim(),
+    category: categorySelect.value,
+    createdAt: formatDate(new Date()),
+  });
+
+  noteInput.value = "";
+  render();
+});
+
+render();
